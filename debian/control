@@ -1,0 +1,16 @@
+Source: systray-monitor-qt
+Section: admin
+Priority: optional
+Maintainer: dolphinoracle <dolphinoracle@gmail.com>
+Build-Depends: debhelper (>=10), qtbase5-dev, qttools5-dev-tools
+Standards-Version: 3.9.5
+Vcs-Git: git://github.com/mxlinux/systray-monitor-qt.git
+
+Package: systray-monitor-qt
+Architecture: any
+Depends: ${misc:Depends},
+        ${shlibs:Depends},
+Description: monitor command output from systray icon
+ Systray-monitor-qt is a tool to add custom command output to a icon
+ in a dekstop's system tray.  Information is displayed in a tooltip
+ and in an action window.

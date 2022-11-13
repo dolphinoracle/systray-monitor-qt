@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Systray Monitor Qt
+Comment=Monitor command output from systray icon 
+Exec=systray-monitor-qt
+Icon=emblem-system
+Terminal=false
+StartupNotify=false
+Type=Application
+Categories=System; MX-Utilities
+

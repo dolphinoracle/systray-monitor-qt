@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>HELP: Systray-monitor-qt</title>
+</head>
+<body>
+<h1>HELP: Systray Monitor Qt</h1>
+
+<p>A tool that resides in the system tray / notificiation area that allows for easy monitoring of terminal command output.  The output is displayed in a tooltip accessible by hovering over the tray icon.</p>
+
+<img src="tooltip.jpg" alt="tooltip (shown with network info)" />
+
+<p>The system tray icon is a standard theme icon (applications-system) symbol and will vary with system icon theme.</p>
+
+<p>Right clicking the icon will bring up a context menu.</p>
+
+<img src="tray-menu.jpg" alt="tray-menu" />
+
+<ul>
+<li>Enalbe Autostart:  This will set the app to start at login, assuming desktop adheres to the XDG autostart standard</li>
+<li>Help:  This help document.</li>
+<li>About:  standard &#8220;About&#8221; information including version number.</li>
+<li>Quit:  Exit the app.</li>
+</ul>
+<p>Left clicking the icon will also bring up the action window displaying the same output as the tooltip.</p>
+
+<img src="action_window.jpg" alt="action_window" />
+
+<p>A copy button is available that will take the currently displayed output and copy to the system clipboard.</p>
+
+<p>To close the action window, simply click outside the window, press ESC, or click the Cancel Button.</p>
+
+<h3>Tips and Tricks</h3>
+
+	<ul>
+		<li>Any command directing output to stdout can be used.  A configuration file is in $HOME/.config/systray-monitor-qt/default.conf</li>
+		<li>App may be launched with a custom *.conf file with the -c,--config= commandline parameters and specifying full path to the *.conf file.</li>
+		<li>Multiple instances of the monitor can be run, each with its own command output, by specifying a custom *.conf file.</li>
+	</ul>
+
+<p>Development history: Dolphin_Oracle</p>
+
+<p>v. 22.11.01</p>
+</body>
+</html>

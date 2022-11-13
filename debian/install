@@ -1,0 +1,6 @@
+systray-monitor-qt	 		 usr/bin/
+systray-monitor-qt.desktop	 usr/share/applications/
+translations/*.qm 	 usr/share/systray-monitor-qt/locale/
+LICENSE            usr/share/doc/systray-monitor-qt/
+help/*					usr/share/doc/systray-monitor-qt/
+xfce-hkmon   usr/lib/systray-monitor-qt/
