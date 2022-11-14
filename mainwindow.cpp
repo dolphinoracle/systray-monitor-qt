@@ -18,40 +18,66 @@ MainWindow::MainWindow(const QString &conffile, QDialog *parent) :
     QDialog(parent),
     ui(new Ui::MainWindow)
 {
-    QString conf_file = conffile;
+    // Write default.conf file
     write_default_conf_file();
-    int time = 0;
     qApp->setQuitOnLastWindowClosed(false);
+    this->setWindowIcon(QIcon::fromTheme("applications-system"));
+
     //process conf file
+    QString conf_file = conffile;
+
+    //defualt time of 5 seconds
+    int time = 5;
+
+    //if no conf_file specified, load default.conf
     if (conf_file.isEmpty()){
         conf_file = QDir::homePath() + "/.config/systray-monitor-qt/default.conf";
     }
+    //display conf file being loaded in terminal output, either default.conf or user specified
     qDebug() << "config file " << conf_file;
+
+    //read values for time and command if conf file exists
     if ( QFile(conf_file).exists()) {
         QSettings settings(conf_file, QSettings::NativeFormat);
+
+        // read time and command variables whatever conf file is active
 
         time = settings.value("time").toInt();
         command = settings.value("command").toString();
     }
 
+    //time is in seconds, but Qt's timer runs in 1/1000th of a second
     time = time * 1000;
-    //backup defaults
-    if (time == 0){
-    time = 5000;
-    }
+
+    //set a default command to run if settings file is empty
+    //set here because if command is invalid in conf_file then we want to display no output rather than using default command
     if (command.isEmpty()){
     command = "/usr/lib/systray-monitor-qt/xfce-hkmon NET CPU TEMP IO RAM";
     }
 
+    //create UI
     ui->setupUi(this);
+
+    //add actions for menu items to run
     createActions();
+
+    //menu items to run actions
     createMenu();
+
+    //make left click show action window
     connect(trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::iconActivated);
+
+    //display systray tray icon
     trayIcon->show();
+
+    //set options for textreport box in action window
     ui->textBoxReport->setWordWrapMode(QTextOption::NoWrap);
-    //this->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+
+    //run command twice before starting timer
     infocmd();
     infocmd();
+
+    //start command on timer
     runinfocmd(time);
 
 }
@@ -76,6 +102,7 @@ void MainWindow::start()
 {
     if (proc.state() != QProcess::NotRunning)
         return;
+    //show action window, bring to on top
     this->show();
     this->raise();
 
@@ -88,7 +115,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
-    //setPosition();
+    //define what to do with varius left click combos, all start action window
     switch (reason) {
     case QSystemTrayIcon::DoubleClick:
     case QSystemTrayIcon::MiddleClick:
@@ -102,11 +129,13 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void MainWindow::createActions()
 {
+    //create action items for menu
     aboutAction = new QAction(QIcon::fromTheme("help-about"), tr("About"), this);
     helpAction = new QAction(QIcon::fromTheme("help-browser"), tr("Help"), this);
     quitAction = new QAction(QIcon::fromTheme("gtk-quit"), tr("Quit"), this);
     toggleAutostartAction = new QAction(QIcon::fromTheme("preferences-system"), tr("Enable Autostart?"), this);
 
+    //define what the actions do and what triggers them
     connect(aboutAction, &QAction::triggered, this, &MainWindow::about);
     connect(helpAction, &QAction::triggered, this, &MainWindow::help);
     connect(quitAction, &QAction::triggered, qApp, &QGuiApplication::quit);
@@ -115,12 +144,14 @@ void MainWindow::createActions()
 
 void MainWindow::createMenu()
 {
+    //create menu and add action items as entries
     menu = new QMenu(this);
     menu->addAction(toggleAutostartAction);
     menu->addAction(helpAction);
     menu->addAction(aboutAction);
     menu->addAction(quitAction);
 
+    //create systray icon, and give it a menu and default tooltip
     trayIcon = new QSystemTrayIcon(this);
     trayIcon->setIcon(QIcon::fromTheme("applications-system-symbolic"));
     trayIcon->setContextMenu(menu);
@@ -148,6 +179,7 @@ void MainWindow::setPosition()
 
 void MainWindow::toggleAutostart()
 {
+    //add desktop file to $HOME/.config/autostart if yes
     QString local_file = QDir::homePath() + "/.config/autostart/systray-monitor-qt.desktop";
     if (QMessageBox::Yes == QMessageBox::question(nullptr, tr("Autostart Settings"), tr("Enable Autostart?")))
         QFile::copy("/usr/share/applications/systray-monitor-qt.desktop", local_file);
@@ -157,7 +189,7 @@ void MainWindow::toggleAutostart()
 
 }
 
-//// implement change event that closes app when window loses focus
+// implement change event that closes app when window loses focus, hides window when something else gains focus
 //void MainWindow::changeEvent(QEvent *event)
 //{
 //    QWidget::changeEvent(event);
@@ -169,12 +201,14 @@ void MainWindow::toggleAutostart()
 
 void MainWindow::on_cancel_pressed()
 {
+    //hide action window but don't close app
     this->hide();
 }
 
 // process keystrokes
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
+    //close action window on Esc key
     if (event->key() == Qt::Key_Escape)
         this->hide();
 }
@@ -195,6 +229,7 @@ void MainWindow::about()
 // timer to run command
 void MainWindow::runinfocmd(int time)
 {
+    //run command based on given time
     QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(infocmd()));
         timer->start(time);
@@ -203,7 +238,10 @@ void MainWindow::runinfocmd(int time)
 //infocommand builder
 void MainWindow::infocmd()
 {
+    //run defined command, filter some tags out
     INFO = runCmd(command).str.trimmed().remove("<txt>").remove("</txt>").remove("<tool>").remove("</tool>");
+
+    //display info in tooltip and action window text box
     trayIcon->setToolTip(INFO);
     ui->textBoxReport->setPlainText(INFO);
 }
@@ -212,6 +250,7 @@ void MainWindow::infocmd()
 void MainWindow::on_ButtonCopy_clicked()
 {
 
+    //copy action window text contents to clipboard
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(ui->textBoxReport->toPlainText());
 
@@ -219,6 +258,7 @@ void MainWindow::on_ButtonCopy_clicked()
 
 void MainWindow::write_default_conf_file()
 {
+    //create commented $HOME/.config/systray-monitor-qt/default.conf if not present
     if (! QDir(QDir::homePath() + "/.config/systray-monitor-qt").exists() ){
         QDir().mkdir(QDir::homePath() + "/.config/systray-monitor-qt");
     }
