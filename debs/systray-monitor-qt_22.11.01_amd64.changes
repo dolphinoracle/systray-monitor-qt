@@ -1,0 +1,31 @@
+Format: 1.8
+Date: Sat, 12 Nov 2022 19:49:50 -0500
+Source: systray-monitor-qt
+Binary: systray-monitor-qt
+Architecture: source amd64
+Version: 22.11.01
+Distribution: mx
+Urgency: medium
+Maintainer: dolphinoracle <dolphinoracle@gmail.com>
+Changed-By: Dolphin Oracle <dolphinoracle@gmail.com>
+Description:
+ systray-monitor-qt - monitor command output from systray icon
+Changes:
+ systray-monitor-qt (22.11.01) mx; urgency=medium
+ .
+   * Initial release
+Checksums-Sha1:
+ a20e01f427d3e6c4dac10be8dbf94650a208837f 679 systray-monitor-qt_22.11.01.dsc
+ 0377b4b1cd19617cc5054b2a818576bc01e866f6 85884 systray-monitor-qt_22.11.01.tar.xz
+ 8a14c2f412b4a99e18d6c66ce5831c56b1fdb176 10986 systray-monitor-qt_22.11.01_amd64.buildinfo
+ 99e08181fe961e7b3d357b841f6badb881f162fc 86052 systray-monitor-qt_22.11.01_amd64.deb
+Checksums-Sha256:
+ 2f6c53afa50a878b8b95948ff35ed6769cb33b8c90d1225798faa32d20971510 679 systray-monitor-qt_22.11.01.dsc
+ 9db17965182192bd36241b82b8f74ac981c6fb1212588884cda5100b1ecf1f69 85884 systray-monitor-qt_22.11.01.tar.xz
+ dcafd49bae6735daf205ef6e6168f2e695f80e1fcb71177356be35e1601521d8 10986 systray-monitor-qt_22.11.01_amd64.buildinfo
+ d209d0d3eee3c731bdd00250fd5208b6ad5ea97124cb40c0e8dbb1dc6976605f 86052 systray-monitor-qt_22.11.01_amd64.deb
+Files:
+ 38164d0120044fbdaaa27614500b8364 679 admin optional systray-monitor-qt_22.11.01.dsc
+ 94ffd10d7a4c84d70862a7e93bc75344 85884 admin optional systray-monitor-qt_22.11.01.tar.xz
+ d7db9a8e01e772c02a6467257d958a91 10986 admin optional systray-monitor-qt_22.11.01_amd64.buildinfo
+ 7dd743a1c006d37c8d65e56d6727a45b 86052 admin optional systray-monitor-qt_22.11.01_amd64.deb
